@@ -5,7 +5,7 @@ from datetime import datetime
 # Konfigurasi API
 # Pastikan kamu memasukkan API KEY di GitHub Secrets nanti
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 def generate_article():
     # Topik bisa kamu ganti secara dinamis atau ambil dari list
