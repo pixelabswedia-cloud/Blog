@@ -1,9 +1,6 @@
-baseURL = "https://pixelabswedia-cloud.github.io/Blog/" # Sesuaikan dengan URL kamu
+baseURL = "https://pixelabswedia-cloud.github.io/Blog/"
 languageCode = "id-id"
 title = "Tech Insights Daily"
-
-# Baris theme di bawah ini DIHAPUS atau DIKOMENTARI
-# theme = "computer robot" 
 
 [params]
     description = "Latest updates on AI, Technology, and Digital Trends."
