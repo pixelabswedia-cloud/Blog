@@ -1,20 +1,24 @@
-name: Auto Blog Gratis Gemini
+name: Auto Blog AI Gratis
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Jalan otomatis jam 7 pagi WIB setiap hari
-  workflow_dispatch:
+    # Berjalan otomatis setiap hari jam 00:00 UTC (07:00 WIB)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Tombol rahasia untuk tes manual
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    # Memberikan izin kepada bot untuk menulis file ke repositori Anda
     permissions:
       contents: write
+
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -22,15 +26,26 @@ jobs:
       - name: Install Google AI Library
         run: pip install -q -U google-generativeai
 
-      - name: Run Script
+      - name: Generate Artikel
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python generate_blog.py
 
-      - name: Commit and Push
+      - name: Push Artikel ke GitHub
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add posts/*.md
-          git commit -m "Update artikel otomatis [skip ci]" || echo "Tidak ada perubahan"
-          git push
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Pastikan folder posts terdeteksi oleh git
+          mkdir -p posts
+          
+          # Menambahkan file hanya jika ada file baru di folder posts
+          git add posts/*.md || echo "Tidak ada file .md baru ditemukan."
+          
+          # Cek apakah ada yang perlu di-commit
+          if git diff --cached --quiet; then
+            echo "Status: Tidak ada perubahan artikel untuk di-commit."
+          else
+            git commit -m "Auto-post: Update artikel blog via Gemini AI"
+            git push
+          fi
