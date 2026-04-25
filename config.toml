@@ -1,4 +1,4 @@
-baseURL = "https://pixelabswedia-cloud.github.io/" # Sesuaikan dengan URL kamu
+baseURL = "https://pixelabswedia-cloud.github.io/Blog" # Sesuaikan dengan URL kamu
 languageCode = "id-id"
 title = "Tech Insights Daily"
 
