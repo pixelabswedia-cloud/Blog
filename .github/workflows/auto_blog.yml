@@ -1,39 +1,36 @@
-name: Auto Update Blog Artikel
+name: Auto Blog Gratis Gemini
 
 on:
   schedule:
-    # Berjalan otomatis setiap hari pada jam 00:00 UTC
-    - cron: '0 0 * * *'
-  workflow_dispatch: # Memungkinkan Anda menjalankan manual lewat tombol di GitHub
+    - cron: '0 0 * * *' # Jalan otomatis jam 7 pagi WIB setiap hari
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     permissions:
-      contents: write # Penting agar bot bisa nge-push hasil artikel
-
+      contents: write
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
-      - name: Install dependencies
-        run: pip install openai==0.28 # Menggunakan versi stabil untuk script di atas
+      - name: Install Google AI Library
+        run: pip install -q -U google-generativeai
 
-      - name: Run AI script
+      - name: Run Script
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python generate_blog.py
 
-      - name: Commit and Push changes
+      - name: Commit and Push
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git add posts/*.md
-          git commit -m "Auto-post: Artikel AI baru [skip ci]" || echo "No changes to commit"
+          git commit -m "Update artikel otomatis [skip ci]" || echo "Tidak ada perubahan"
           git push
