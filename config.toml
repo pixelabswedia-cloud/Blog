@@ -1,7 +1,9 @@
-baseURL = "https://domain-kamu.com/" # Ganti dengan domain kamu nanti
-languageCode = "en-us"
-title = "Tech Insights Daily" # Ganti dengan nama brand kamu
-theme = "computer robot" # Kita pakai custom layout agar ringan
+baseURL = "https://sakawebsite.github.io/" # Sesuaikan dengan URL kamu
+languageCode = "id-id"
+title = "Tech Insights Daily"
+
+# Baris theme di bawah ini DIHAPUS atau DIKOMENTARI
+# theme = "computer robot" 
 
 [params]
     description = "Latest updates on AI, Technology, and Digital Trends."
