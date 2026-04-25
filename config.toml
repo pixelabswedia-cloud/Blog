@@ -1,7 +1,7 @@
 baseURL = "https://domain-kamu.com/" # Ganti dengan domain kamu nanti
 languageCode = "en-us"
 title = "Tech Insights Daily" # Ganti dengan nama brand kamu
-theme = "" # Kita pakai custom layout agar ringan
+theme = "computer robot" # Kita pakai custom layout agar ringan
 
 [params]
     description = "Latest updates on AI, Technology, and Digital Trends."
