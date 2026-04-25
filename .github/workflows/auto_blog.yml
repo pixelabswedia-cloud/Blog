@@ -1,0 +1,39 @@
+name: Auto Update Blog Artikel
+
+on:
+  schedule:
+    # Berjalan otomatis setiap hari pada jam 00:00 UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Memungkinkan Anda menjalankan manual lewat tombol di GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write # Penting agar bot bisa nge-push hasil artikel
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install openai==0.28 # Menggunakan versi stabil untuk script di atas
+
+      - name: Run AI script
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python generate_blog.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add posts/*.md
+          git commit -m "Auto-post: Artikel AI baru [skip ci]" || echo "No changes to commit"
+          git push
